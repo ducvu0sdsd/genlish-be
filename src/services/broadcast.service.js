@@ -13,7 +13,8 @@ class BroadCastService {
             if (!vietnameseSrtFile || !englishSrtFile) {
                 throw new Error('No file provided')
             }
-            const broadcastsURL = await this.getAll().map(item => item.urlVideo)
+            // const broadcastsURL = await broadcastModel.find().map(item => item.urlVideo)
+            const broadcastsURL = await broadcastModel.find()
             if (broadcastsURL.includes(urlVideo)) {
                 throw new Error('Broadcast already exists in the system')
             }

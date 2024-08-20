@@ -10,6 +10,14 @@ class BroadCastController {
         const englishSrtFile = srts[0]
         const vietnameseSrtFile = srts[1]
         broadCastService.insert(englishSrtFile, vietnameseSrtFile, urlVideo, title, duration, channelName, thum)
+            .then(broadcast => responseWithNoTokens(req, res, broadcast, 201))
+            .catch(error => responseWithNoTokens(req, res, error.message, 500))
+    }
+
+    getAll = (req, res) => {
+        broadCastService.getAll()
+            .then(broadcasts => responseWithNoTokens(req, res, broadcasts, 201))
+            .catch(error => responseWithNoTokens(req, res, error.message, 500))
     }
 }
 

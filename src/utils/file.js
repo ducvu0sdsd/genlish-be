@@ -5,8 +5,13 @@ const handleSRTFile = (str) => {
     arr.forEach((item1, index) => {
         const item = item1
         if (/[0-9]{1,6}/.test(item) && !item.includes(' --> ')) { // id
-            const i = parseInt(item.replace('\r', ''))
-            subtitle.id = i
+            // const i = parseInt(JSON.parse(JSON.stringify(item.replace('\r', ''))))
+            // if (i === NaN) {
+            //     subtitle.id = subtitles.length + 1
+            // } else {
+            //     subtitle.id = i
+            // }
+            subtitle.id = subtitles.length + 1
         } else if (item.includes(' --> ')) { // time
             const times = item.split(' --> ')
             times.forEach((time, index) => {
