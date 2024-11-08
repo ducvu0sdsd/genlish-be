@@ -54,6 +54,11 @@ class PaymentService {
         const payments = paymentModel.find({ 'customer._id': customer_id })
         return payments
     }
+
+    delete = async (id) => {
+        const payment = paymentModel.findByIdAndDelete(id)
+        return payment
+    }
 }
 
 module.exports = new PaymentService()

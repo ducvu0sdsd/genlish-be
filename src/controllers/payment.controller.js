@@ -32,6 +32,7 @@ class PaymentController {
         const startCourse = data.content.indexOf("MaCourse") + 8;
         const endCourse = data.content.indexOf("THANHTOAN", startCourse);
         const course_id = data.content.substring(startCourse, endCourse);
+        //MBVCB.7549002983.470666.MaKH671073b98ee143b17f0732aeMaCourse670e04d2c1e1ba4e7ca96771THANHTOAN.CT tu 0281000625860 VU TIEN DUC toi 37731017 THAI QUANG BAO tai ACB GD 470666-110824 19:02:41
         const payment = {
             course: {
                 _id: course_id
@@ -52,9 +53,9 @@ class PaymentController {
             return item.course._id.toString() === course_id.toString() && item.customer._id.toString() === user_id.toString()
         })[0]
         if (filter) {
-            return responseWithTokens(req, res, filter, 200)
+            return responseWithNoTokens(req, res, filter, 200)
         }
-        return responseWithTokens(req, res, null, 200)
+        return responseWithNoTokens(req, res, null, 200)
     }
 
     update = (req, res) => {
@@ -68,6 +69,13 @@ class PaymentController {
         const { id } = req.params
         paymentService.getByCustomer(id)
             .then(payments => responseWithTokens(req, res, payments, 200))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
+    }
+
+    delete = (req, res) => {
+        const { id } = req.params
+        paymentService.delete(id)
+            .then(deleted => responseWithNoTokens(req, res, deleted, 200))
             .catch(error => responseWithTokens(req, res, error.message, 500))
     }
 
