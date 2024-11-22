@@ -15,4 +15,5 @@ router.use('/api/v1/course', require('./course'))
 router.use('/api/v1/coursedetail', require('./course_detail'))
 router.use('/api/v1/studycourse', require('./study_course'))
 router.use('/api/v1/payment', require('./payment'))
+router.use('/api/v1/notification', require('./notification'))
 module.exports = router

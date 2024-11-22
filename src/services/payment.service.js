@@ -3,7 +3,6 @@ const paymentModel = require('../models/payment.model')
 
 
 class PaymentService {
-
     insert = async (payment) => {
         try {
             const res = await paymentModel.create(payment)
@@ -29,7 +28,6 @@ class PaymentService {
             'provider._id': provider_id,
             createdAt: { $gte: from, $lte: to }
         });
-        console.log(payments)
         payments.forEach(payment => {
             if (!results.map(item => item.course_id.toString()).includes(payment.course._id)) {
                 results.push({ course_id: payment.course._id, course_name: payment.course.name, course_image: payment.course.image, numberOfEpisode: payment.course.numberOfEpisode })
@@ -49,6 +47,44 @@ class PaymentService {
         });
         return payments.reduce((total, item) => total += item.price, 0)
     }
+
+    getWithdrawTeacher = async () => {
+        let payments = await paymentModel.find({
+            type: 'WAITING_FOR_TEACHER'
+        });
+        return payments
+    }
+
+    withdraw = async (provider_id) => {
+        try {
+            await paymentModel.updateMany(
+                {
+                    'provider._id': provider_id,
+                    type: 'STUDENT_TRANFER'
+                },
+                {
+                    $set: { type: 'WAITING_FOR_TEACHER' }
+                }
+            );
+            return true
+        } catch (error) {
+            throw new Error('Rút tiền thất bại')
+        }
+    }
+
+    completeWithdraw = async (payments) => {
+        try {
+            await Promise.all(
+                payments.map(payment =>
+                    paymentModel.findByIdAndUpdate(payment._id, payment)
+                )
+            );
+            return true;
+        } catch (error) {
+            throw new Error('Rút tiền thất bại');
+        }
+    };
+
 
     getByCustomer = async (customer_id) => {
         const payments = paymentModel.find({ 'customer._id': customer_id })

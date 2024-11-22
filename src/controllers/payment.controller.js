@@ -46,6 +46,13 @@ class PaymentController {
         return true
     }
 
+    withdraw = async (req, res) => {
+        const { provider_id } = req.params
+        paymentService.withdraw(provider_id)
+            .then(result => responseWithTokens(req, res, result, 201))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
+    }
+
     checkPayment = async (req, res) => {
         const { user_id, course_id } = req.body
         const payments = await paymentService.getAll()
@@ -56,6 +63,19 @@ class PaymentController {
             return responseWithNoTokens(req, res, filter, 200)
         }
         return responseWithNoTokens(req, res, null, 200)
+    }
+
+    getWithdrawTeacher = async (req, res) => {
+        paymentService.getWithdrawTeacher()
+            .then(result => responseWithTokens(req, res, result, 201))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
+    }
+
+    completeWithdraw = async (req, res) => {
+        const { payments } = req.body
+        paymentService.completeWithdraw(payments)
+            .then(result => responseWithTokens(req, res, result, 201))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
     }
 
     update = (req, res) => {
