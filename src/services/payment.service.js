@@ -81,10 +81,24 @@ class PaymentService {
             );
             return true;
         } catch (error) {
+            console.error(error);
             throw new Error('Rút tiền thất bại');
         }
     };
 
+    failWithdraw = async (payments) => {
+        try {
+            await Promise.all(
+                payments.map(payment =>
+                    paymentModel.findByIdAndUpdate(payment._id, payment)
+                )
+            );
+            return true;
+        } catch (error) {
+            console.error(error);
+            throw new Error('Thao tác thất bại');
+        }
+    };
 
     getByCustomer = async (customer_id) => {
         const payments = paymentModel.find({ 'customer._id': customer_id })

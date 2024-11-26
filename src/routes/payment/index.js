@@ -17,5 +17,6 @@ router.get('/get-by-customer/:id', middleware.checkToken, paymentController.getB
 router.get('/get-withdraw-teacher', middleware.checkToken, paymentController.getWithdrawTeacher)
 router.delete('/delete/:id', paymentController.delete)
 router.post('/complete-withdraw', middleware.checkToken, paymentController.completeWithdraw)
+router.post('/fail-withdraw', middleware.checkToken, paymentController.failWithdraw)
 
 module.exports = router

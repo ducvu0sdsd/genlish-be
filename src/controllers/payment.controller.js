@@ -72,8 +72,15 @@ class PaymentController {
     }
 
     completeWithdraw = async (req, res) => {
-        const { payments } = req.body
+        const payments = req.body
         paymentService.completeWithdraw(payments)
+            .then(result => responseWithTokens(req, res, result, 201))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
+    }
+
+    failWithdraw = async (req, res) => {
+        const payments = req.body
+        paymentService.failWithdraw(payments)
             .then(result => responseWithTokens(req, res, result, 201))
             .catch(error => responseWithTokens(req, res, error.message, 500))
     }
