@@ -12,5 +12,6 @@ router.post('/updatePassword', middleware.checkToken, userController.updatePassW
 router.get('/getByPhone/:phone', userController.getByPhone)
 router.get('/getById/:id', userController.getById)
 router.post('/changeNewPassword', userController.changeNewPassword)
+router.delete('/delete/:id', middleware.checkToken, userController.delete)
 
 module.exports = router  

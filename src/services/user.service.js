@@ -12,6 +12,11 @@ class UserService {
         return user
     }
 
+    delete = async (id) => {
+        const user = await userModel.findByIdAndDelete(id)
+        return user
+    }
+
     changeNewPassword = async (phone, newPassword, reNewPassword) => {
         try {
 

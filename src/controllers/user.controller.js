@@ -11,6 +11,12 @@ class UserController {
             .then(userUpdated => responseWithTokens(req, res, userUpdated, 200))
             .catch(error => responseWithTokens(req, res, error.message, 500))
     }
+    delete = (req, res) => {
+        const { id } = req.params
+        userService.delete(id)
+            .then(deleted => responseWithTokens(req, res, deleted, 200))
+            .catch(error => responseWithTokens(req, res, error.message, 500))
+    }
     changeNewPassword = (req, res) => {
         const { phone, newPassword, reNewPassword } = req.body
         userService.changeNewPassword(phone, newPassword, reNewPassword)
